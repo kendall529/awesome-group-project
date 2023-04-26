@@ -1,4 +1,4 @@
-var catFactsUrl = 'https://cat-fact.herokuapp.com/facts';
+var catFactsUrl = 'https://dog.ceo/api/breeds/list/all';
 
 
 
