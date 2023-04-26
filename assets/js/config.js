@@ -2,7 +2,6 @@ var dogPhotoUrl = 'https://dog.ceo/api/breeds/image/random';
 var triviaUrl = 'https://opentdb.com/api.php?amount=10&type=multiple'
 
 
-
 fetch(dogPhotoUrl)
     .then(function(response) {
         if (!response.ok) throw new Error('Ooops');
