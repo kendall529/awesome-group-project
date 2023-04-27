@@ -44,22 +44,27 @@ function createQuestion(question) {
     // cardEl.setAttribute('class', );
 
     var questionEl = document.createElement('h5');
+    questionEl.setAttribute('class', 'font-bold');
     questionEl.textContent = question.question;
 
     var answerContainerEl = document.createElement('div');
     // answerContainerEl.setAttribute('class', )
 
     var button1El = document.createElement('button');
-    // button1El.setAttribute('class', );
+    button1El.setAttribute('class', 'm-4' );
+    
     button1El.textContent = question.incorrect_answers[0];
     var button2El = document.createElement('button');
-    // button2El.setAttribute('class', );
+    button2El.setAttribute('class', 'm-4' );
+
     button2El.textContent = question.correct_answer;
     var button3El = document.createElement('button');
-    // button3El.setAttribute('class', );
+    button3El.setAttribute('class', 'm-4' );
+
     button3El.textContent = question.incorrect_answers[2];
     var button4El = document.createElement('button');
-    // button4El.setAttribute('class', );
+    button4El.setAttribute('class', 'm-4' );
+    
     button4El.textContent = question.incorrect_answers[1];
 
     answerContainerEl.append(button1El, button2El, button3El, button4El);
