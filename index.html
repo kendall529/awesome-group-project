@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./assets/js/css/app.css">
 </head>
 
-<body>
+<body class="bg-cyan-700">
     <nav>
         <span class="font-bold">Meowscope</span>
         <div>
@@ -20,15 +20,57 @@
     </nav>
     <section id="home">
         <div class="mission-statement">
-            <h2>A horoscope and cat fact in one convenient place</h2>
-            <p>For those times when you just need the stars to guide you and a fun fact about a loveable little animal to carry you through your day.</p>
-            <button>Learn <s>More</s></button>
+            <h2>Trivia and Dogs</h2>
+            <p>For those times when you're bored and a trivia quiz is just the solution. No need to worry about getting a question wrong. When that happens there a fun surprise</p>
+            <a href="#quiz">Learn <span>More</span></a>
         </div>
 
-        <img src="..." alt="placeholder">
+        <img src="https://images.unsplash.com/photo-1570937943292-a574bd5bc722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" alt="placeholder">
     </section>
-    <section id="quiz">
+    <section id="quiz" class="bg-cyan300">
+        <form action="">
+            <label for="number-of-questions">Number of Questions:</label>
+            <input type="number" name="number-of-questions" id="number-of-questions" min="1" max="50" value="10">
+            <br>
+            <label for="category">Choose Category:</label>
+            <select name="category" id="category">
+                <option value="any">Any Category</option>
+                <option value="9">General Knowledge</option>
+                <option value="10">Entertainment: Books</option>
+                <option value="11">Entertainment: Film</option>
+                <option value="12">Entertainment: Music</option>
+                <option value="13">Entertainment: Musicals & Theatres</option>
+                <option value="14">Entertainment: Television</option>
+                <option value="15">Entertainment: Video Games</option>
+                <option value="16">Entertainment: Board Games</option>
+                <option value="17">Science & Nature</option>
+                <option value="18">Science: Computers</option>
+                <option value="19">Science: Mathematics</option>
+                <option value="20">Mythology</option>
+                <option value="21">Sports</option>
+                <option value="22">Geography</option>
+                <option value="23">History</option>
+                <option value="24">Politics</option>
+                <option value="25">Art</option>
+                <option value="26">Celebrities</option>
+                <option value="27">Animals</option>
+                <option value="28">Vehicles</option>
+                <option value="29">Entertainment: Comics</option>
+                <option value="30">Science: Gadgets</option>
+                <option value="31">Entertainment: Japanese Anime & Manga</option>
+                <option value="32">Entertainment: Cartoon & Animations</option>
+            </select>
+            <br>
+            <label for="difficulty">Select difficulty</label>
+            <select name="difficulty" id="difficulty">
+                <option value="any">Any difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <br>
 
+        </form>
     </section>
     <section id="results">
 

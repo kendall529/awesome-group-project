@@ -41,10 +41,11 @@ fetch(dogPhotoUrl)
 
 function createQuestion(question) {
     var cardEl = document.createElement('div');
-    // cardEl.setAttribute('class', );
+    cardEl.setAttribute('class', 'rounded shadow-2xl border-2 border-black');
 
     var questionEl = document.createElement('h5');
     questionEl.textContent = question.question;
+    cardEl.setAttribute('class', '')
 
     var answerContainerEl = document.createElement('div');
     // answerContainerEl.setAttribute('class', )
