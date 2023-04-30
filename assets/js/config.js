@@ -39,28 +39,29 @@ fetch(dogPhotoUrl)
         console.log(error);
     });
 
+    // 
 function createQuestion(question) {
     var cardEl = document.createElement('div');
-    cardEl.setAttribute('class', 'rounded shadow-2xl border-2 border-black');
+    cardEl.setAttribute('class', 'bg-white-700 w-2/5 mx-auto border-2 rounded my-9 shadow-2xl');
 
     var questionEl = document.createElement('h5');
     questionEl.textContent = question.question;
-    cardEl.setAttribute('class', '')
+    questionEl.setAttribute('class', 'text-center py-6');
 
     var answerContainerEl = document.createElement('div');
-    // answerContainerEl.setAttribute('class', )
+    answerContainerEl.setAttribute('class', 'w-50 grid grid-cols-2 gap-5 border-2 border-black py-8');
 
     var button1El = document.createElement('button');
-    // button1El.setAttribute('class', );
+    button1El.setAttribute('class', 'rounded-full shadow-md bg-amber-400 w-48 mx-auto');
     button1El.textContent = question.incorrect_answers[0];
     var button2El = document.createElement('button');
-    // button2El.setAttribute('class', );
+    button2El.setAttribute('class', 'rounded-full shadow-md bg-amber-400 w-48 mx-auto');
     button2El.textContent = question.correct_answer;
     var button3El = document.createElement('button');
-    // button3El.setAttribute('class', );
+    button3El.setAttribute('class', 'rounded-full shadow-md bg-amber-400 w-48 mx-auto');
     button3El.textContent = question.incorrect_answers[2];
     var button4El = document.createElement('button');
-    // button4El.setAttribute('class', );
+    button4El.setAttribute('class', 'rounded-full shadow-md bg-amber-400 w-48 mx-auto');
     button4El.textContent = question.incorrect_answers[1];
 
     answerContainerEl.append(button1El, button2El, button3El, button4El);
