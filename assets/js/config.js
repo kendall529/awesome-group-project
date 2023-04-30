@@ -39,13 +39,23 @@ fetch(dogPhotoUrl)
         console.log(error);
     });
 
-    // 
+    function replaceUnicode(str) {
+        var decodedStr = decodeURIComponent(str);
+        return decodedStr.replace(/\\u([\dA-Fa-f]{4})/g, function(match, p1) {
+          return String.fromCharCode(parseInt(p1, 16));
+        }).replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&ouml;/g, `ö`).replace(/&aacute;/g, `á`);
+      }
+
 function createQuestion(question) {
     var cardEl = document.createElement('div');
     cardEl.setAttribute('class', 'bg-white-700 w-2/5 mx-auto border-2 rounded my-9 shadow-2xl');
 
     var questionEl = document.createElement('h5');
-    questionEl.textContent = question.question;
+    var sentence = question.question;
+    var newSentence = replaceUnicode(sentence);
+    console.log(newSentence); 
+
+    questionEl.textContent = newSentence;
     questionEl.setAttribute('class', 'text-center py-6');
 
     var answerContainerEl = document.createElement('div');
