@@ -50,7 +50,7 @@ fetch(dogPhotoUrl)
 function createQuestion(question) {
 
     var cardEl = document.createElement('div');
-    cardEl.setAttribute('class', 'shadow-white bg-slate-500 w-2/5 mx-auto rounded-md my-9 shadow-lg');
+    cardEl.setAttribute('class', 'shadow-slate-950 bg-slate-500 w-2/5 mx-auto rounded-md my-9 shadow-lg');
     // create the question element
     var questionEl = document.createElement('h5');
     var sentence = question.question;
@@ -71,6 +71,15 @@ function createQuestion(question) {
       //apply the unicode replacement function to the answers
       var answer = replaceUnicode(answers[i]);
       buttonEl.textContent = answer;
+      // add event listener to each button
+      var scoreEl = document.getElementById('score');
+      var score = 0;
+      buttonEl.addEventListener('click', function() {
+        if(this.textContent === question.correct_answer) {
+            score += 10;
+            scoreEl.textContent = 'Score: ' + score;
+        }
+      });
       answerContainerEl.appendChild(buttonEl);
     }
     // append question and answer buttons to card
@@ -99,9 +108,10 @@ function createQuestion(question) {
     return array;
   }
 
+  // create a next button so that the quiz can be moved through
 function createNextButton() {
     var nextButton = document.createElement('button');
-    nextButton.setAttribute('class', 'rounded-lg shadow-md bg-cyan-500 w-48 mx-auto hover:shadow-xl absolute bottom-0 right-24');
+    nextButton.setAttribute('class', 'rounded-lg shadow-md bg-cyan-500 w-48 mx-auto hover:shadow-md hover:shadow-slate-950 absolute bottom-0 right-24');
     nextButton.setAttribute('id', 'next-btn');
     nextButton.textContent = 'Next'
 
