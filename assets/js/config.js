@@ -47,41 +47,108 @@ fetch(dogPhotoUrl)
         }).replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&ouml;/g, `ö`).replace(/&aacute;/g, `á`);
       }
 
+// function createQuestion(question) {
+//     var cardEl = document.createElement('div');
+//     cardEl.setAttribute('class', 'shadow-white bg-slate-500 w-2/5 mx-auto rounded-md my-9 shadow-lg');
+
+//     var questionEl = document.createElement('h5');
+//     var sentence = question.question;
+//     var newSentence = replaceUnicode(sentence);
+//     questionEl.textContent = newSentence;
+//     questionEl.setAttribute('class', 'text-center py-6');
+
+//     var answerContainerEl = document.createElement('div');
+//     answerContainerEl.setAttribute('class', 'w-50 grid grid-cols-2 gap-5 py-8');
+
+//     var button1El = document.createElement('button');
+//     button1El.setAttribute('class', 'rounded-lg bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
+//     button1El.textContent = question.incorrect_answers[0];
+
+//     var button2El = document.createElement('button');
+//     button2El.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
+//     button2El.textContent = question.correct_answer;
+
+//     var button3El = document.createElement('button');
+//     button3El.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
+//     button3El.textContent = question.incorrect_answers[2];
+
+//     var button4El = document.createElement('button');
+//     button4El.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
+//     button4El.textContent = question.incorrect_answers[1];
+
+//     var buttonContents = [question.incorrect_answers[0], question.correct_answer, question.incorrect_answers[2], question.incorrect_answers[1]];
+
+//     // Fisher-Yates shuffle algorithm to shuffle the array
+//     for (var i = buttonContents.length - 1; i > 0; i--) {
+//       var j = Math.floor(Math.random() * (i + 1));
+//       var temp = buttonContents[i];
+//       buttonContents[i] = buttonContents[j];
+//       buttonContents[j] = temp;
+//     }
+    
+//     // Create buttons from shuffled array and append to the container
+//     for (var i = 0; i < buttonContents.length; i++) {
+//       var buttonEl = document.createElement('button');
+//       buttonEl.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
+//       buttonEl.textContent = buttonContents[i];
+//       answerContainerEl.append(buttonEl);
+//     }
+
+
+//     cardEl.append(questionEl, answerContainerEl);
+
+//     return cardEl;
+// }
 function createQuestion(question) {
+
     var cardEl = document.createElement('div');
     cardEl.setAttribute('class', 'shadow-white bg-slate-500 w-2/5 mx-auto rounded-md my-9 shadow-lg');
-
+    // create the question element
     var questionEl = document.createElement('h5');
     var sentence = question.question;
     var newSentence = replaceUnicode(sentence);
     questionEl.textContent = newSentence;
     questionEl.setAttribute('class', 'text-center py-6');
 
+    // create the answer buttons container
     var answerContainerEl = document.createElement('div');
     answerContainerEl.setAttribute('class', 'w-50 grid grid-cols-2 gap-5 py-8');
 
-    var button1El = document.createElement('button');
-    button1El.setAttribute('class', 'rounded-lg bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
-    button1El.textContent = question.incorrect_answers[0];
-
-    var button2El = document.createElement('button');
-    button2El.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
-    button2El.textContent = question.correct_answer;
-
-    var button3El = document.createElement('button');
-    button3El.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
-    button3El.textContent = question.incorrect_answers[2];
-
-    var button4El = document.createElement('button');
-    button4El.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
-    button4El.textContent = question.incorrect_answers[1];
-
-    answerContainerEl.append(button1El, button2El, button3El, button4El);
-
-    cardEl.append(questionEl, answerContainerEl);
-
+    // shuffle the answer options
+    var answers = shuffleArray(question.incorrect_answers.concat(question.correct_answer));
+    // create the answer buttons
+    for (var i = 0; i < answers.length; i++) {
+      var buttonEl = document.createElement('button');
+      buttonEl.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
+      buttonEl.textContent = answers[i];
+      answerContainerEl.appendChild(buttonEl);
+    }
+    // append question and answer buttons to card
+    cardEl.appendChild(questionEl);
+    cardEl.appendChild(answerContainerEl);
+    // return the question card
     return cardEl;
-}
+  }
+  
+  // shuffle array function
+  function shuffleArray(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
 
 function createNextButton() {
     var nextButton = document.createElement('button');
