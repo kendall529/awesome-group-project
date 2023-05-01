@@ -4,7 +4,6 @@ var triviaUrl = 'https://opentdb.com/api.php?amount=10'
 
 
 
-
 fetch(dogPhotoUrl)
     .then(function(response) {
         if (!response.ok) throw new Error('Ooops');
@@ -15,6 +14,10 @@ fetch(dogPhotoUrl)
     })
     .then(function(data) {
         console.log('data :>>', data);
+
+        var dump = document.createElement('pre');
+        dump.textContent = JSON.stringify(data, null, 2);
+        document.body.appendChild(dump);
     })
     .catch(function(error) {
         console.log(error);
@@ -34,11 +37,12 @@ fetch(dogPhotoUrl)
     })
     .then(function(data) {
         console.log('data :>>', data);
+
+        renderQuestion(data.results);
     })
     .catch(function(error) {
         console.log(error);
     });
-
 
     // As a user I want to take a trivia quiz
     // Acceptance Criteria
