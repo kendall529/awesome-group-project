@@ -39,6 +39,7 @@ fetch(dogPhotoUrl)
         console.log(error);
     });
 
+    
     function replaceUnicode(str) {
         var decodedStr = decodeURIComponent(str);
         return decodedStr.replace(/\\u([\dA-Fa-f]{4})/g, function(match, p1) {
@@ -48,49 +49,81 @@ fetch(dogPhotoUrl)
 
 function createQuestion(question) {
     var cardEl = document.createElement('div');
-    cardEl.setAttribute('class', 'bg-white-700 w-2/5 mx-auto border-2 rounded my-9 shadow-2xl');
+    cardEl.setAttribute('class', 'shadow-white bg-slate-500 w-2/5 mx-auto rounded-md my-9 shadow-lg');
 
     var questionEl = document.createElement('h5');
     var sentence = question.question;
     var newSentence = replaceUnicode(sentence);
-    console.log(newSentence); 
-
     questionEl.textContent = newSentence;
     questionEl.setAttribute('class', 'text-center py-6');
 
     var answerContainerEl = document.createElement('div');
-    answerContainerEl.setAttribute('class', 'w-50 grid grid-cols-2 gap-5 border-2 border-black py-8');
+    answerContainerEl.setAttribute('class', 'w-50 grid grid-cols-2 gap-5 py-8');
 
     var button1El = document.createElement('button');
-    button1El.setAttribute('class', 'rounded-full shadow-md bg-amber-400 w-48 mx-auto');
+    button1El.setAttribute('class', 'rounded-lg bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
     button1El.textContent = question.incorrect_answers[0];
+
     var button2El = document.createElement('button');
-    button2El.setAttribute('class', 'rounded-full shadow-md bg-amber-400 w-48 mx-auto');
+    button2El.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
     button2El.textContent = question.correct_answer;
+
     var button3El = document.createElement('button');
-    button3El.setAttribute('class', 'rounded-full shadow-md bg-amber-400 w-48 mx-auto');
+    button3El.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
     button3El.textContent = question.incorrect_answers[2];
+
     var button4El = document.createElement('button');
-    button4El.setAttribute('class', 'rounded-full shadow-md bg-amber-400 w-48 mx-auto');
+    button4El.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
     button4El.textContent = question.incorrect_answers[1];
 
     answerContainerEl.append(button1El, button2El, button3El, button4El);
-    
 
     cardEl.append(questionEl, answerContainerEl);
 
     return cardEl;
 }
 
-function renderQuestion(questions) {
+function createNextButton() {
+    var nextButton = document.createElement('button');
+    nextButton.setAttribute('class', 'rounded-lg shadow-md bg-cyan-500 w-48 mx-auto hover:shadow-xl absolute bottom-0 right-24');
+    nextButton.setAttribute('id', 'next-btn');
+    nextButton.textContent = 'Next'
+
+    var quizContainer = document.getElementById('quiz');
+    quizContainer.append(nextButton);
+}
+
+createNextButton();
+
+// async and await have enabled the function to go through one iteration of the loop at once and wait for the next button to be clicked
+async function renderQuestion(questions) {
     // get quiz container
     var quizContainer = document.getElementById('quiz');
     // loop over questions
     for(var i = 0; i < questions.length; i++) {
+        //remove the previously created card
+        var previousQuestion = quizContainer.querySelector('.quiz-card');
+        if(previousQuestion) {
+            previousQuestion.remove();
+        }
         // create a question card for each loop
         var questionCard = createQuestion(questions[i]);
+        // add a class to card so it can be identified for removal
+        questionCard.classList.add('quiz-card');
         // append question card to body
         quizContainer.append(questionCard);
+
+    var nextButtonPromise = new Promise(function(resolve) {
+        var nextButton = document.getElementById('next-btn');
+        nextButton.addEventListener('click', function() {
+            // remove event listener so it doesn't get called again
+            nextButton.removeEventListener('click', arguments.callee);
+            //resolve the promise
+            resolve();
+        });
+    });
+    // gets the function to wait for the nextButton click before going to the next iteration
+    await nextButtonPromise;
     }
 }
 
