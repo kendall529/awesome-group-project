@@ -47,6 +47,8 @@ fetch(dogPhotoUrl)
         }).replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&ouml;/g, `ö`).replace(/&aacute;/g, `á`);
       }
 
+var score = 0;
+
 function createQuestion(question) {
 
     var cardEl = document.createElement('div');
@@ -64,6 +66,8 @@ function createQuestion(question) {
 
     // shuffle the answer options
     var answers = shuffleArray(question.incorrect_answers.concat(question.correct_answer));
+
+    var scoreEl = document.getElementById('score');
     // create the answer buttons
     for (var i = 0; i < answers.length; i++) {
       var buttonEl = document.createElement('button');
@@ -72,8 +76,6 @@ function createQuestion(question) {
       var answer = replaceUnicode(answers[i]);
       buttonEl.textContent = answer;
       // add event listener to each button
-      var scoreEl = document.getElementById('score');
-      var score = 0;
       buttonEl.addEventListener('click', function() {
         if(this.textContent === question.correct_answer) {
             score += 10;
@@ -122,42 +124,47 @@ function createQuestion(question) {
 // createNextButton();
 
 // async and await have enabled the function to go through one iteration of the loop at once and wait for the next button to be clicked
-async function renderQuestion(questions) {
+async function renderQuestion(questions, currentIndex = 0) {
     // get quiz container
     var quizContainer = document.getElementById('quiz');
-    // loop over questions
-    for (var i = 0; i < questions.length; i++) {
-      //remove the previously created card
-      var previousQuestion = quizContainer.querySelector('.quiz-card');
-      if (previousQuestion) {
-        previousQuestion.remove();
-      }
-      // create a question card for each loop
-      var questionCard = createQuestion(questions[i]);
-      // add a class to card so it can be identified for removal
-      questionCard.classList.add('quiz-card');
-      // append question card to body
-      quizContainer.append(questionCard);
+    // remove the previously created card
+    var previousQuestion = quizContainer.querySelector('.quiz-card');
+    if (previousQuestion) {
+      previousQuestion.remove();
+    }
+    // create a question card for the current index
+    var questionCard = createQuestion(questions[currentIndex]);
+    // add a class to card so it can be identified for removal
+    questionCard.classList.add('quiz-card');
+    // append question card to body
+    quizContainer.append(questionCard);
   
-      var answerButtonPromises = [];
-      var answerButtons = questionCard.querySelectorAll('button');
-      for (var j = 0; j < answerButtons.length; j++) {
-        answerButtonPromises[j] = new Promise(function(resolve) {
-          answerButtons[j].addEventListener('click', createEventListener(j, resolve));
-        });
-      }
-  
-      // gets the function to wait for the nextButton click before going to the next iteration
-      await Promise.race(answerButtonPromises);
+    var answerButtonPromises = [];
+    var answerButtons = questionCard.querySelectorAll('button');
+    for (var j = 0; j < answerButtons.length; j++) {
+      answerButtonPromises[j] = new Promise(function(resolve) {
+        answerButtons[j].addEventListener('click', createEventListener(j, resolve, questions, currentIndex));
+      });
     }
   
-    function createEventListener(j, resolve) {
-      return function() {
-        // remove event listener so it doesn't get called again
-        answerButtons[j].removeEventListener('click', arguments.callee);
-        //resolve the promise
-        resolve();
+    // waits for the nextButton click before going to the next iteration
+    await Promise.race(answerButtonPromises);
+  
+    // call renderQuestion for the next index after a delay of 1000 milliseconds
+    setTimeout(function() {
+      if (currentIndex + 1 < questions.length) {
+        renderQuestion(questions, currentIndex + 1);
       }
+    }, 500);
+  }
+  
+  function createEventListener(j, resolve, questions, currentIndex) {
+    var answerButtons = document.querySelectorAll('button');
+    return function() {
+      // remove event listener so it doesn't get called again
+      answerButtons[j].removeEventListener('click', arguments.callee);
+      // resolve the promise
+      resolve();
     }
   }
 
