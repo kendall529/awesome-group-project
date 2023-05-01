@@ -109,49 +109,57 @@ function createQuestion(question) {
   }
 
   // create a next button so that the quiz can be moved through
-function createNextButton() {
-    var nextButton = document.createElement('button');
-    nextButton.setAttribute('class', 'rounded-lg shadow-md bg-cyan-500 w-48 mx-auto hover:shadow-md hover:shadow-slate-950 absolute bottom-0 right-24');
-    nextButton.setAttribute('id', 'next-btn');
-    nextButton.textContent = 'Next'
+// function createNextButton() {
+//     var nextButton = document.createElement('button');
+//     nextButton.setAttribute('class', 'rounded-lg shadow-md bg-cyan-500 w-48 mx-auto hover:shadow-md hover:shadow-slate-950 absolute bottom-0 right-24');
+//     nextButton.setAttribute('id', 'next-btn');
+//     nextButton.textContent = 'Next'
 
-    var quizContainer = document.getElementById('quiz');
-    quizContainer.append(nextButton);
-}
+//     var quizContainer = document.getElementById('quiz');
+//     quizContainer.append(nextButton);
+// }
 
-createNextButton();
+// createNextButton();
 
 // async and await have enabled the function to go through one iteration of the loop at once and wait for the next button to be clicked
 async function renderQuestion(questions) {
     // get quiz container
     var quizContainer = document.getElementById('quiz');
     // loop over questions
-    for(var i = 0; i < questions.length; i++) {
-        //remove the previously created card
-        var previousQuestion = quizContainer.querySelector('.quiz-card');
-        if(previousQuestion) {
-            previousQuestion.remove();
-        }
-        // create a question card for each loop
-        var questionCard = createQuestion(questions[i]);
-        // add a class to card so it can be identified for removal
-        questionCard.classList.add('quiz-card');
-        // append question card to body
-        quizContainer.append(questionCard);
-
-    var nextButtonPromise = new Promise(function(resolve) {
-        var nextButton = document.getElementById('next-btn');
-        nextButton.addEventListener('click', function() {
-            // remove event listener so it doesn't get called again
-            nextButton.removeEventListener('click', arguments.callee);
-            //resolve the promise
-            resolve();
+    for (var i = 0; i < questions.length; i++) {
+      //remove the previously created card
+      var previousQuestion = quizContainer.querySelector('.quiz-card');
+      if (previousQuestion) {
+        previousQuestion.remove();
+      }
+      // create a question card for each loop
+      var questionCard = createQuestion(questions[i]);
+      // add a class to card so it can be identified for removal
+      questionCard.classList.add('quiz-card');
+      // append question card to body
+      quizContainer.append(questionCard);
+  
+      var answerButtonPromises = [];
+      var answerButtons = questionCard.querySelectorAll('button');
+      for (var j = 0; j < answerButtons.length; j++) {
+        answerButtonPromises[j] = new Promise(function(resolve) {
+          answerButtons[j].addEventListener('click', createEventListener(j, resolve));
         });
-    });
-    // gets the function to wait for the nextButton click before going to the next iteration
-    await nextButtonPromise;
+      }
+  
+      // gets the function to wait for the nextButton click before going to the next iteration
+      await Promise.race(answerButtonPromises);
     }
-}
+  
+    function createEventListener(j, resolve) {
+      return function() {
+        // remove event listener so it doesn't get called again
+        answerButtons[j].removeEventListener('click', arguments.callee);
+        //resolve the promise
+        resolve();
+      }
+    }
+  }
 
 
     // As a user I want to take a trivia quiz
