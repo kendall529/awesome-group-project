@@ -1,7 +1,6 @@
 
 var dogPhotoUrl = 'https://dog.ceo/api/breeds/image/random';
-var triviaUrl = 'https://opentdb.com/api.php?amount=10'
-
+var triviaUrl = 'https://opentdb.com/api.php?amount=10&type=multiple'
 
 
 fetch(dogPhotoUrl)
@@ -43,6 +42,111 @@ fetch(dogPhotoUrl)
     .catch(function(error) {
         console.log(error);
     });
+
+    
+    function replaceUnicode(str) {
+        var decodedStr = decodeURIComponent(str);
+        return decodedStr.replace(/\\u([\dA-Fa-f]{4})/g, function(match, p1) {
+          return String.fromCharCode(parseInt(p1, 16));
+        }).replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&ouml;/g, `ö`).replace(/&aacute;/g, `á`);
+      }
+
+function createQuestion(question) {
+
+    var cardEl = document.createElement('div');
+    cardEl.setAttribute('class', 'shadow-white bg-slate-500 w-2/5 mx-auto rounded-md my-9 shadow-lg');
+    // create the question element
+    var questionEl = document.createElement('h5');
+    var sentence = question.question;
+    var newSentence = replaceUnicode(sentence);
+    questionEl.textContent = newSentence;
+    questionEl.setAttribute('class', 'text-center py-6');
+
+    // create the answer buttons container
+    var answerContainerEl = document.createElement('div');
+    answerContainerEl.setAttribute('class', 'w-50 grid grid-cols-2 gap-5 py-8');
+
+    // shuffle the answer options
+    var answers = shuffleArray(question.incorrect_answers.concat(question.correct_answer));
+    // create the answer buttons
+    for (var i = 0; i < answers.length; i++) {
+      var buttonEl = document.createElement('button');
+      buttonEl.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
+      //apply the unicode replacement function to the answers
+      var answer = replaceUnicode(answers[i]);
+      buttonEl.textContent = answer;
+      answerContainerEl.appendChild(buttonEl);
+    }
+    // append question and answer buttons to card
+    cardEl.append(questionEl, answerContainerEl);
+    // return the question card
+    return cardEl;
+  }
+  
+  // shuffle array function
+  function shuffleArray(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
+
+function createNextButton() {
+    var nextButton = document.createElement('button');
+    nextButton.setAttribute('class', 'rounded-lg shadow-md bg-cyan-500 w-48 mx-auto hover:shadow-xl absolute bottom-0 right-24');
+    nextButton.setAttribute('id', 'next-btn');
+    nextButton.textContent = 'Next'
+
+    var quizContainer = document.getElementById('quiz');
+    quizContainer.append(nextButton);
+}
+
+createNextButton();
+
+// async and await have enabled the function to go through one iteration of the loop at once and wait for the next button to be clicked
+async function renderQuestion(questions) {
+    // get quiz container
+    var quizContainer = document.getElementById('quiz');
+    // loop over questions
+    for(var i = 0; i < questions.length; i++) {
+        //remove the previously created card
+        var previousQuestion = quizContainer.querySelector('.quiz-card');
+        if(previousQuestion) {
+            previousQuestion.remove();
+        }
+        // create a question card for each loop
+        var questionCard = createQuestion(questions[i]);
+        // add a class to card so it can be identified for removal
+        questionCard.classList.add('quiz-card');
+        // append question card to body
+        quizContainer.append(questionCard);
+
+    var nextButtonPromise = new Promise(function(resolve) {
+        var nextButton = document.getElementById('next-btn');
+        nextButton.addEventListener('click', function() {
+            // remove event listener so it doesn't get called again
+            nextButton.removeEventListener('click', arguments.callee);
+            //resolve the promise
+            resolve();
+        });
+    });
+    // gets the function to wait for the nextButton click before going to the next iteration
+    await nextButtonPromise;
+    }
+}
+
 
     // As a user I want to take a trivia quiz
     // Acceptance Criteria
