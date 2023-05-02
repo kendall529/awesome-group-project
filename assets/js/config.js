@@ -1,5 +1,5 @@
 var dogPhotoUrl = 'https://dog.ceo/api/breeds/image/random';
-var triviaUrl = 'https://opentdb.com/api.php?amount=10&type=multiple'
+// var triviaUrl = 'https://opentdb.com/api.php?amount=10&type=multiple'
 
 
 fetch(dogPhotoUrl)
@@ -20,32 +20,28 @@ fetch(dogPhotoUrl)
     .catch(function(error) {
         console.log(error);
     });
-
-
-    fetch(triviaUrl)
-    .then(function(response) {
-        if (!response.ok) throw new Error('Ooops');
-     
-        console.log('response :>>', response);
-
-        return response.json();
-    })
-    .then(function(data) {
-        console.log('data :>>', data);
-
-        renderQuestion(data.results);
-    })
-    .catch(function(error) {
-        console.log(error);
-    });
-
     
-    function replaceUnicode(str) {
-        var decodedStr = decodeURIComponent(str);
-        return decodedStr.replace(/\\u([\dA-Fa-f]{4})/g, function(match, p1) {
-          return String.fromCharCode(parseInt(p1, 16));
-        }).replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&ouml;/g, `ö`).replace(/&aacute;/g, `á`);
-      }
+// function replaceUnicode(str) {
+//     var decodedStr = decodeURIComponent(str);
+//     return decodedStr.replace(/\\u([\dA-Fa-f]{4})/g, function(match, p1) {
+//         return String.fromCharCode(parseInt(p1, 16));
+//     }).replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&ouml;/g, `ö`).replace(/&aacute;/g, `á`);
+// }
+
+function replaceUnicode(input) {
+    if (!input) return input;
+
+    // List the unicode characters you want to replace and their replacements
+    const unicodeReplacements = {
+        "&quot;": "\"",
+        "&#039;": "\'",
+        "&amp;": "&",
+        "&lt;": "<",
+        "&gt;": ">",
+    };
+
+    return input.replace(/&[^;]+;/g, match => unicodeReplacements[match] || match);
+}
 
 var score = 0;
 
@@ -69,6 +65,7 @@ function createQuestion(question) {
 
     var scoreEl = document.getElementById('score');
     // create the answer buttons
+    var correctAnswer = replaceUnicode(question.correct_answer);
     for (var i = 0; i < answers.length; i++) {
       var buttonEl = document.createElement('button');
       buttonEl.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
@@ -77,7 +74,7 @@ function createQuestion(question) {
       buttonEl.textContent = answer;
       // add event listener to each button
       buttonEl.addEventListener('click', function() {
-        if(this.textContent === question.correct_answer) {
+        if(this.textContent === correctAnswer) {
             score += 10;
             scoreEl.textContent = 'Score: ' + score;
         }
@@ -88,7 +85,7 @@ function createQuestion(question) {
     cardEl.append(questionEl, answerContainerEl);
     // return the question card
     return cardEl;
-  }
+}
   
   // shuffle array function
   function shuffleArray(array) {
@@ -110,63 +107,102 @@ function createQuestion(question) {
     return array;
   }
 
-  // create a next button so that the quiz can be moved through
-// function createNextButton() {
-//     var nextButton = document.createElement('button');
-//     nextButton.setAttribute('class', 'rounded-lg shadow-md bg-cyan-500 w-48 mx-auto hover:shadow-md hover:shadow-slate-950 absolute bottom-0 right-24');
-//     nextButton.setAttribute('id', 'next-btn');
-//     nextButton.textContent = 'Next'
+  function fetchQuizResults(numberOfQuestions) {
+    var quizURL = 'https://opentdb.com/api.php?amount=' 
 
-//     var quizContainer = document.getElementById('quiz');
-//     quizContainer.append(nextButton);
-// }
+    // Fetch data from quizURL
+    return fetch(quizURL + numberOfQuestions)
+        .then(function(res) {
+            if(!res.ok) throw new Error('Ooops');
+            return res.json();
+        })
+        .then(function(data) {
+                return data.results;
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
+}
 
-// createNextButton();
+var startQuizButton = document.getElementById('start-quiz');
 
-// async and await have enabled the function to go through one iteration of the loop at once and wait for the next button to be clicked
-async function renderQuestion(questions, currentIndex = 0) {
+//Add a click event for Start Quiz button
+startQuizButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    // input elements by ID
+    var setNumberOfQuestions = document.getElementById('number-of-questions');
+    // var setCategory = document.getElementById('category');
+    // var setDifficulty = document.getElementById('difficulty');
+    // Get values form input fields
+    var numberOfQuestions = setNumberOfQuestions.value;
+    // var category = setCategory.value;
+    // var difficulty = setDifficulty.value;
+
+    // Create the URL for the fetch with the input values
+    fetchQuizResults(numberOfQuestions)
+        .then(function(questions) {
+            // debugging: check the fetch
+            console.log('Questions array:', questions);
+            renderQuestion(questions);
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
+});
+
+  async function renderQuestion(questions, currentIndex = 0) {
+    // debugging: Check questions array, currentIndex, and current question object
+    console.log('Inside renderQuestion:>>', questions, currentIndex, questions[currentIndex]);
+
     // get quiz container
     var quizContainer = document.getElementById('quiz');
-    // remove the previously created card
     var previousQuestion = quizContainer.querySelector('.quiz-card');
     if (previousQuestion) {
-      previousQuestion.remove();
+        previousQuestion.remove();
     }
-    // create a question card for the current index
+
+    // debugging: Check if the question object is received as expected
+    console.log('Current question object', questions[currentIndex]);
+
+    // Pass the entire question object to createQuestion
     var questionCard = createQuestion(questions[currentIndex]);
-    // add a class to card so it can be identified for removal
     questionCard.classList.add('quiz-card');
-    // append question card to body
     quizContainer.append(questionCard);
-  
+
     var answerButtonPromises = [];
     var answerButtons = questionCard.querySelectorAll('button');
     for (var j = 0; j < answerButtons.length; j++) {
-      answerButtonPromises[j] = new Promise(function(resolve) {
-        answerButtons[j].addEventListener('click', createEventListener(j, resolve, questions, currentIndex));
-      });
+        answerButtonPromises[j] = new Promise(function (resolve) {
+            answerButtons[j].addEventListener('click', createEventListener(j, resolve, questions, currentIndex));
+        });
     }
-  
+
     // waits for the nextButton click before going to the next iteration
     await Promise.race(answerButtonPromises);
-  
+
     // call renderQuestion for the next index after a delay of 1000 milliseconds
-    setTimeout(function() {
-      if (currentIndex + 1 < questions.length) {
-        renderQuestion(questions, currentIndex + 1);
-      }
-    }, 500);
-  }
-  
-  function createEventListener(j, resolve, questions, currentIndex) {
+    setTimeout(function () {
+        if (currentIndex + 1 < questions.length) {
+            renderQuestion(questions, currentIndex + 1);
+        }
+    }, 2000);
+}
+
+function createEventListener(j, resolve, questions, currentIndex) {
     var answerButtons = document.querySelectorAll('button');
     return function() {
       // remove event listener so it doesn't get called again
       answerButtons[j].removeEventListener('click', arguments.callee);
       // resolve the promise
       resolve();
+      // go to next question if there are more questions
+      if(currentIndex + 1 < questions.length) {
+        renderQuestion(questions, currentIndex + 1);
+      }
     }
-  }
+}
+
 
 
     // As a user I want to take a trivia quiz
