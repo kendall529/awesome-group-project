@@ -149,6 +149,8 @@ startQuizButton.addEventListener('click', function(e) {
         .catch(function(error) {
             console.error(error);
         });
+    
+    document.getElementById('score').textContent = 'Score: 0' 
 });
 
   async function renderQuestion(questions, currentIndex = 0) {
