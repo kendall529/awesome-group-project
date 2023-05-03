@@ -1,32 +1,41 @@
+
 var dogPhotoUrl = 'https://dog.ceo/api/breeds/image/random';
 // var triviaUrl = 'https://opentdb.com/api.php?amount=10&type=multiple'
 
+function fetchDogImg() {
+    fetch(dogPhotoUrl)
+        .then(function (response) {
+            if (!response.ok) throw new Error('Ooops');
 
-fetch(dogPhotoUrl)
-    .then(function(response) {
-        if (!response.ok) throw new Error('Ooops');
-     
-        console.log('response :>>', response);
+            console.log('response :>>', response);
 
-        return response.json();
-    })
-    .then(function(data) {
-        console.log('data :>>', data);
+            return response.json();
+        })
+        .then(function (data) {
+            console.log('data :>>', data);
+            createDogImage(data)
+        })
 
-        var dump = document.createElement('pre');
-        dump.textContent = JSON.stringify(data, null, 2);
-        document.body.appendChild(dump);
-    })
-    .catch(function(error) {
-        console.log(error);
-    });
-    
-// function replaceUnicode(str) {
-//     var decodedStr = decodeURIComponent(str);
-//     return decodedStr.replace(/\\u([\dA-Fa-f]{4})/g, function(match, p1) {
-//         return String.fromCharCode(parseInt(p1, 16));
-//     }).replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&ouml;/g, `ö`).replace(/&aacute;/g, `á`);
-// }
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function createDogImage(dog) {
+    var quizSection = document.getElementById('quiz');
+    var imgEL = document.createElement('img');
+    imgEL.setAttribute('src', dog.message);
+    console.log(dog.message);
+    imgEL.setAttribute('alt', 'cute-dog');
+    imgEL.setAttribute('class', 'mx-auto w-80');
+    quizSection.append(imgEL);
+    return quizSection
+}
+
+
+
+
+
 
 function replaceUnicode(input) {
     if (!input) return input;
@@ -67,59 +76,61 @@ function createQuestion(question) {
     // create the answer buttons
     var correctAnswer = replaceUnicode(question.correct_answer);
     for (var i = 0; i < answers.length; i++) {
-      var buttonEl = document.createElement('button');
-      buttonEl.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
-      //apply the unicode replacement function to the answers
-      var answer = replaceUnicode(answers[i]);
-      buttonEl.textContent = answer;
-      // add event listener to each button
-      buttonEl.addEventListener('click', function() {
-        if(this.textContent === correctAnswer) {
-            score += 10;
-            scoreEl.textContent = 'Score: ' + score;
-        }
-      });
-      answerContainerEl.appendChild(buttonEl);
+        var buttonEl = document.createElement('button');
+        buttonEl.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
+        //apply the unicode replacement function to the answers
+        var answer = replaceUnicode(answers[i]);
+        buttonEl.textContent = answer;
+        // add event listener to each button
+        buttonEl.addEventListener('click', function () {
+            if (this.textContent === correctAnswer) {
+                score += 10;
+                scoreEl.textContent = 'Score: ' + score;
+            } else {
+                fetchDogImg()
+            }
+        });
+        answerContainerEl.appendChild(buttonEl);
     }
     // append question and answer buttons to card
     cardEl.append(questionEl, answerContainerEl);
     // return the question card
     return cardEl;
 }
-  
-  // shuffle array function
-  function shuffleArray(array) {
+
+// shuffle array function
+function shuffleArray(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
-  
+
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-  
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-  
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-  
-    return array;
-  }
 
-  function fetchQuizResults(numberOfQuestions) {
-    var quizURL = 'https://opentdb.com/api.php?amount=' 
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+function fetchQuizResults(numberOfQuestions) {
+    var quizURL = 'https://opentdb.com/api.php?amount='
 
     // Fetch data from quizURL
     return fetch(quizURL + numberOfQuestions)
-        .then(function(res) {
-            if(!res.ok) throw new Error('Ooops');
+        .then(function (res) {
+            if (!res.ok) throw new Error('Ooops');
             return res.json();
         })
-        .then(function(data) {
-                return data.results;
+        .then(function (data) {
+            return data.results;
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.error(error);
         });
 }
@@ -127,9 +138,9 @@ function createQuestion(question) {
 var startQuizButton = document.getElementById('start-quiz');
 
 //Add a click event for Start Quiz button
-startQuizButton.addEventListener('click', function(e) {
+startQuizButton.addEventListener('click', function (e) {
     e.preventDefault();
-    
+
     // input elements by ID
     var setNumberOfQuestions = document.getElementById('number-of-questions');
     // var setCategory = document.getElementById('category');
@@ -141,17 +152,17 @@ startQuizButton.addEventListener('click', function(e) {
 
     // Create the URL for the fetch with the input values
     fetchQuizResults(numberOfQuestions)
-        .then(function(questions) {
+        .then(function (questions) {
             // debugging: check the fetch
             console.log('Questions array:', questions);
             renderQuestion(questions);
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.error(error);
         });
 });
 
-  async function renderQuestion(questions, currentIndex = 0) {
+async function renderQuestion(questions, currentIndex = 0) {
     // debugging: Check questions array, currentIndex, and current question object
     console.log('Inside renderQuestion:>>', questions, currentIndex, questions[currentIndex]);
 
@@ -191,15 +202,15 @@ startQuizButton.addEventListener('click', function(e) {
 
 function createEventListener(j, resolve, questions, currentIndex) {
     var answerButtons = document.querySelectorAll('button');
-    return function() {
-      // remove event listener so it doesn't get called again
-      answerButtons[j].removeEventListener('click', arguments.callee);
-      // resolve the promise
-      resolve();
-      // go to next question if there are more questions
-      if(currentIndex + 1 < questions.length) {
-        renderQuestion(questions, currentIndex + 1);
-      }
+    return function () {
+        // remove event listener so it doesn't get called again
+        answerButtons[j].removeEventListener('click', arguments.callee);
+        // resolve the promise
+        resolve();
+        // go to next question if there are more questions
+        if (currentIndex + 1 < questions.length) {
+            renderQuestion(questions, currentIndex + 1);
+        }
     }
 }
 
