@@ -265,6 +265,8 @@ function updateScore() {
     sessionStorage.removeItem("currentScore")
 };
 
+
+
     // As a user I want to take a trivia quiz
     // Acceptance Criteria
     // A question pops up with selectors for possible answers
