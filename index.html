@@ -9,20 +9,20 @@
     <link rel="stylesheet" href="./assets/js/css/app.css">
 </head>
 
-<body class="bg-cyan-700">
-    <nav>
-        <h1 class="font-bold flex items-center">TriviaDogs</h1>
-        <div class="flex gap-x-20 justify-center">
+<body class="bg-slate-700">
+    <nav class="relative py-5">
+        <h1 class="text-orange-500 absolute ms-5 left-0 top-1/4 font-bold text-2xl flex items-center">TriviaDogs</h1>
+        <div class="text-slate-300 flex gap-x-20 justify-center">
             <a href="#home">Home</a>
             <a href="#quiz">Play</a>
-            <a href="#results">Past Results</a>
+            <a href="./scoreboard.html">Past Results</a>
         </div>
     </nav>
-    <section class="flex bg-cyan-500 h-screen" id="home">
+    <section class="flex bg-slate-500 h-screen" id="home">
         <div class="mission-statement mx-32 my-auto">
             <h2 class="text-5xl mb-4">Trivia and Dogs</h2>
             <p class="mb-4">For those times when you're bored and a trivia quiz is just the solution. No need to worry about getting a question wrong. When that happens there a fun surprise</p>
-            <a class="bg-slate-500 px-6 py-1 rounded-lg" href="#quiz">Learn <span class="text-amber-300">More</span></a>
+            <a class="bg-slate-700 text-slate-300 px-6 py-1 rounded-lg" href="#quiz">Learn <span class="text-orange-500"> More</span></a>
         </div>
     
      <div class="my-auto">
@@ -34,8 +34,8 @@
             <!-- <label for="number-of-questions">Number of Questions:</label>
             <input type="number" name="number-of-questions" id="number-of-questions" min="1" max="50" value="10">
             <br> -->
-            <label for="category">Choose Category:</label>
-            <select class="rounded bg-amber-400" name="category" id="category">   
+            <label class="text-slate-300" for="category">Choose Category:</label>
+            <select class="text-center rounded bg-orange-500" name="category" id="category">   
                 <option value="9">General Knowledge</option>
                 <option value="10">Entertainment: Books</option>
                 <option value="11">Entertainment: Film</option>
@@ -70,7 +70,7 @@
                 <option value="hard">Hard</option>
             </select> -->
             <br>
-        <button class="rounded-full bg-slate-500 p-1 px-3 my-10 ms-40" id="start-quiz">Start Quiz</button>
+        <button class="rounded-full bg-slate-300 p-1 px-3 my-10 ms-40 shadow-md shadow-slate-900" id="start-quiz">Start Quiz</button>
 
         </form>
 
