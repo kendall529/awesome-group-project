@@ -47,6 +47,7 @@ function replaceUnicode(input) {
         "&ldquo;": "“",
         "&rdquo;": "”",
         "&eacute;": "é",
+        "&shy;":"-",
     };
 
     return input.replace(/&[^;]+;/g, match => unicodeReplacements[match] || match);
