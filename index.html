@@ -27,7 +27,7 @@
 
         <img src="https://images.unsplash.com/photo-1570937943292-a574bd5bc722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" alt="placeholder">
     </section>
-    <section id="quiz" class="bg-cyan300 relative">
+    <section id="quiz" class="bg-cyan300 relative flex justify-center">
         <form action="">
             <label for="number-of-questions">Number of Questions:</label>
             <input type="number" name="number-of-questions" id="number-of-questions" min="1" max="50" value="10">
@@ -69,12 +69,12 @@
                 <option value="hard">Hard</option>
             </select>
             <br>
+        <button class="rounded-full bg-slate-500 p-1 px-3 my-10 ms-40" id="start-quiz">Start Quiz</button>
 
         </form>
 
-        <div id="quiz-card-section">
+        <p id="score" class="absolute bottom-0 right-40">Score: 0</p>
 
-        </div>
     </section>
     <section id="results">
 
