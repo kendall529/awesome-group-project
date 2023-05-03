@@ -157,7 +157,13 @@ startQuizButton.addEventListener('click', function (e) {
             console.error(error);
         });
     
-    document.getElementById('score').textContent = 'Score: 0' 
+    document.getElementById('score').textContent = 'Score: 0'
+
+    var quizSection = document.getElementById('quiz');
+    var previousImg = quizSection.querySelector('img');
+    if(previousImg) {
+        previousImg.remove();
+    }
 });
 
 async function renderQuestion(questions, currentIndex = 0) {
@@ -169,6 +175,12 @@ async function renderQuestion(questions, currentIndex = 0) {
     var previousQuestion = quizContainer.querySelector('.quiz-card');
     if (previousQuestion) {
         previousQuestion.remove();
+    }
+
+    var quizSection = document.getElementById('quiz');
+    var previousImg = quizSection.querySelector('img');
+    if(previousImg) {
+        previousImg.remove();
     }
 
     // debugging: Check if the question object is received as expected

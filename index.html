@@ -29,13 +29,13 @@
         <img class="w-2/3 mx-auto overflow-hidden" src="https://images.unsplash.com/photo-1570937943292-a574bd5bc722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" alt="A sign with 'Trivia Night' written on it">
     </div>
     </section>
-    <section id="quiz" class="bg-cyan300 relative flex flex-col items-center h-screen">
+    <section id="quiz" class="relative flex flex-col items-center h-screen">
         <form action="" class="mt-10">
-            <label for="number-of-questions">Number of Questions:</label>
+            <!-- <label for="number-of-questions">Number of Questions:</label>
             <input type="number" name="number-of-questions" id="number-of-questions" min="1" max="50" value="10">
-            <br>
+            <br> -->
             <label for="category">Choose Category:</label>
-            <select name="category" id="category">   
+            <select class="rounded bg-amber-400" name="category" id="category">   
                 <option value="9">General Knowledge</option>
                 <option value="10">Entertainment: Books</option>
                 <option value="11">Entertainment: Film</option>
@@ -62,19 +62,19 @@
                 <option value="32">Entertainment: Cartoon & Animations</option>
             </select>
             <br>
-            <label for="difficulty">Select difficulty</label>
+            <!-- <label for="difficulty">Select difficulty</label>
             <select name="difficulty" id="difficulty">
                 <option value="any">Any difficulty</option>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
-            </select>
+            </select> -->
             <br>
         <button class="rounded-full bg-slate-500 p-1 px-3 my-10 ms-40" id="start-quiz">Start Quiz</button>
 
         </form>
 
-        <p id="score" class="fixed bottom-0 right-40">Score: 0</p>
+        <p id="score" class="fixed bottom-1/2 right-40">Score: 0</p>
 
     </section>
     <section id="results">
