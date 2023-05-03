@@ -18,14 +18,14 @@
             <a href="#">Contact</a>
         </div>
     </nav>
-    <section id="home">
-        <div class="mission-statement">
+    <section class="flex" id="home">
+        <div class="mission-statement w-96">
             <h2>Trivia and Dogs</h2>
             <p>For those times when you're bored and a trivia quiz is just the solution. No need to worry about getting a question wrong. When that happens there a fun surprise</p>
             <a href="#quiz">Learn <span>More</span></a>
         </div>
 
-        <img src="https://images.unsplash.com/photo-1570937943292-a574bd5bc722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" alt="placeholder">
+        <img class="w-96" src="https://images.unsplash.com/photo-1570937943292-a574bd5bc722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" alt="placeholder">
     </section>
     <section id="quiz" class="bg-cyan300 relative flex justify-center">
         <form action="">
@@ -33,7 +33,7 @@
             <input type="number" name="number-of-questions" id="number-of-questions" min="1" max="50" value="10">
             <br>
             <label for="category">Choose Category:</label>
-            <select name="category" id="category">
+            <select name="category" id="category">   
                 <option value="any">Any Category</option>
                 <option value="9">General Knowledge</option>
                 <option value="10">Entertainment: Books</option>
