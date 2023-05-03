@@ -13,33 +13,29 @@ function fetchDogImg() {
         })
         .then(function (data) {
             console.log('data :>>', data);
-            return data;
+            createDogImage(data)
         })
+
         .catch(function (error) {
             console.log(error);
         });
 }
 
 function createDogImage(dog) {
+    var quizSection = document.getElementById('quiz');
     var imgEL = document.createElement('img');
     imgEL.setAttribute('src', dog.message);
     console.log(dog.message);
     imgEL.setAttribute('alt', 'cute-dog');
     imgEL.setAttribute('class', 'mx-auto w-80');
-    cardEl.append(imgEL);
-    return cardEl
+    quizSection.append(imgEL);
+    return quizSection
 }
 
 
 
 
 
-// function replaceUnicode(str) {
-//     var decodedStr = decodeURIComponent(str);
-//     return decodedStr.replace(/\\u([\dA-Fa-f]{4})/g, function(match, p1) {
-//         return String.fromCharCode(parseInt(p1, 16));
-//     }).replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&ouml;/g, `ö`).replace(/&aacute;/g, `á`);
-// }
 
 function replaceUnicode(input) {
     if (!input) return input;
@@ -91,10 +87,7 @@ function createQuestion(question) {
                 score += 10;
                 scoreEl.textContent = 'Score: ' + score;
             } else {
-                fetchDogImg().then(function (dog) {
-                    createDogImage(dog);
-                })
-
+                fetchDogImg()
             }
         });
         answerContainerEl.appendChild(buttonEl);
@@ -204,7 +197,7 @@ async function renderQuestion(questions, currentIndex = 0) {
         if (currentIndex + 1 < questions.length) {
             renderQuestion(questions, currentIndex + 1);
         }
-    }, 10000);
+    }, 2000);
 }
 
 function createEventListener(j, resolve, questions, currentIndex) {
