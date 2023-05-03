@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scoreboard</title>
 </head>
-<body>
+<body onload = "updateScore()">
     <h1>Scoreboard</h1>
     <form action="">
         <label for="username">Enter Name: </label>
         <input type="text" name="username" id="username">
-        <button>Submit</button>
+        <button onclick=submitName()>Submit</button>
     </form>
+
+    <p id="ScoreboardScore" class="fixed bottom-1/2 right-40">Score: 0</p>
 </body>
 <script src="./assets/js/config.js"></script>
 </html>
