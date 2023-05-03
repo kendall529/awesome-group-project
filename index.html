@@ -11,30 +11,31 @@
 
 <body class="bg-cyan-700">
     <nav>
-        <span class="font-bold">Meowscope</span>
-        <div>
+        <h1 class="font-bold flex items-center">TriviaDogs</h1>
+        <div class="flex gap-x-20 justify-center">
             <a href="#home">Home</a>
-            <a href="#results">Interact</a>
-            <a href="#">Contact</a>
+            <a href="#quiz">Play</a>
+            <a href="#results">Past Results</a>
         </div>
     </nav>
-    <section class="flex" id="home">
-        <div class="mission-statement w-96">
-            <h2>Trivia and Dogs</h2>
-            <p>For those times when you're bored and a trivia quiz is just the solution. No need to worry about getting a question wrong. When that happens there a fun surprise</p>
-            <a href="#quiz">Learn <span>More</span></a>
+    <section class="flex bg-cyan-500 h-screen" id="home">
+        <div class="mission-statement mx-32 my-auto">
+            <h2 class="text-5xl mb-4">Trivia and Dogs</h2>
+            <p class="mb-4">For those times when you're bored and a trivia quiz is just the solution. No need to worry about getting a question wrong. When that happens there a fun surprise</p>
+            <a class="bg-slate-500 px-6 py-1 rounded-lg" href="#quiz">Learn <span class="text-amber-300">More</span></a>
         </div>
-
-        <img class="w-96" src="https://images.unsplash.com/photo-1570937943292-a574bd5bc722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" alt="placeholder">
+    
+     <div class="my-auto">
+        <img class="w-2/3 mx-auto overflow-hidden" src="https://images.unsplash.com/photo-1570937943292-a574bd5bc722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" alt="A sign with 'Trivia Night' written on it">
+    </div>
     </section>
-    <section id="quiz" class="bg-cyan300 relative flex justify-center">
-        <form action="">
+    <section id="quiz" class="bg-cyan300 relative flex flex-col items-center h-screen">
+        <form action="" class="mt-10">
             <label for="number-of-questions">Number of Questions:</label>
             <input type="number" name="number-of-questions" id="number-of-questions" min="1" max="50" value="10">
             <br>
             <label for="category">Choose Category:</label>
             <select name="category" id="category">   
-                <option value="any">Any Category</option>
                 <option value="9">General Knowledge</option>
                 <option value="10">Entertainment: Books</option>
                 <option value="11">Entertainment: Film</option>
@@ -73,7 +74,7 @@
 
         </form>
 
-        <p id="score" class="absolute bottom-0 right-40">Score: 0</p>
+        <p id="score" class="fixed bottom-0 right-40">Score: 0</p>
 
     </section>
     <section id="results">
