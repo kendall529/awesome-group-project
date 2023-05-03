@@ -9,13 +9,13 @@
     <title>Scoreboard</title>
 </head>
 
-<body class="bg-cyan-700" onload="updateScore()">
+<body class="bg-cyan-700" onload="updateScore();">
     <div id="score-card" class="w-1/2 my-48 py-10 mx-auto bg-slate-500 flex flex-col items-center gap-5 rounded-lg shadow-xl">
         <h1 class="text-5xl">Scoreboard</h1>
         <form id="result-form" method="POST">
             <label for="username">Enter Name: </label>
             <input class="border-2 border-cyan-700 bg-inherit shadow-lg text-center" type="text" name="username" placeholder="Username" id="username">
-            <button class="bg-amber-400 rounded-xl px-2" onclick=submitName()>Submit</button>
+            <button class="bg-amber-400 rounded-xl px-2" onclick=storeScore()>Submit</button>
         </form>
         <ul id="result-list"></ul>
     </div>

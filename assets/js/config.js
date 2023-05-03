@@ -250,22 +250,27 @@ function createEventListener(j, resolve, questions, currentIndex) {
 // }
 // document.querySelector(".quiz-card").style="display: none"
 
-function submitName() {
-var inputName = document.getElementById("username")
-localStorage.setItem("username", username.value)
-console.log(localStorage.getItem("username"))
-}
+// function submitName() {
+// var inputName = document.getElementById("username")
+// localStorage.setItem("username", username.value)
+// console.log(localStorage.getItem("username"))
+// }
+
+function storeScore() {
+    const user = new Object;
+    user.score = score;
+    user.userName = username.value;
+    
+    localStorage.setItem("user", JSON.stringify(user))
+    console.log (localStorage.getItem("user"))
+    }
 
 function updateScore() {
-    console.log("3")
     const score = sessionStorage.getItem("currentScore")
-    console.log(score)
     var scoreBoardScore = document.getElementById("ScoreboardScore");
     scoreBoardScore.innerHTML = "score: " + score
     sessionStorage.removeItem("currentScore")
 };
-
-
 
     // As a user I want to take a trivia quiz
     // Acceptance Criteria
