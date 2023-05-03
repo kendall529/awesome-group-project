@@ -22,7 +22,14 @@ fetch(dogPhotoUrl)
         console.log(error);
     });
 
-
+    function createDogImage(dog){
+        var imgEL = document.createElement('img');
+        imgEL.setAttribute('src', dog.msg);
+        imgEL.setAttribute('alt', 'cute-dog');
+        imgEL.setAttribute('class','mx-auto w-80');
+        cardEl.append(imgEL);
+        return cardEl
+    }
 
 
 
