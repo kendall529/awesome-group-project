@@ -27,14 +27,10 @@ function createDogImage(dog) {
     imgEL.setAttribute('src', dog.message);
     console.log(dog.message);
     imgEL.setAttribute('alt', 'cute-dog');
-    imgEL.setAttribute('class', 'mx-auto w-80');
+    imgEL.setAttribute('class', 'mx-auto w-64');
     quizSection.append(imgEL);
     return quizSection
 }
-
-
-
-
 
 
 function replaceUnicode(input) {
@@ -87,7 +83,7 @@ function createQuestion(question) {
                 score += 10;
                 scoreEl.textContent = 'Score: ' + score;
             } else {
-                fetchDogImg()
+                fetchDogImg();
             }
         });
         answerContainerEl.appendChild(buttonEl);
@@ -118,11 +114,11 @@ function shuffleArray(array) {
     return array;
 }
 
-function fetchQuizResults(numberOfQuestions) {
-    var quizURL = 'https://opentdb.com/api.php?amount='
+function fetchQuizResults(category) {
+    var quizURL = 'https://opentdb.com/api.php?amount=10&category='
 
     // Fetch data from quizURL
-    return fetch(quizURL + numberOfQuestions)
+    return fetch(quizURL + category)
         .then(function (res) {
             if (!res.ok) throw new Error('Ooops');
             return res.json();
@@ -142,16 +138,16 @@ startQuizButton.addEventListener('click', function (e) {
     e.preventDefault();
 
     // input elements by ID
-    var setNumberOfQuestions = document.getElementById('number-of-questions');
+    var setCategory = document.getElementById('category');
     // var setCategory = document.getElementById('category');
     // var setDifficulty = document.getElementById('difficulty');
     // Get values form input fields
-    var numberOfQuestions = setNumberOfQuestions.value;
+    var category = setCategory.value;
     // var category = setCategory.value;
     // var difficulty = setDifficulty.value;
 
     // Create the URL for the fetch with the input values
-    fetchQuizResults(numberOfQuestions)
+    fetchQuizResults(category)
         .then(function (questions) {
             // debugging: check the fetch
             console.log('Questions array:', questions);
@@ -160,6 +156,8 @@ startQuizButton.addEventListener('click', function (e) {
         .catch(function (error) {
             console.error(error);
         });
+    
+    document.getElementById('score').textContent = 'Score: 0' 
 });
 
 async function renderQuestion(questions, currentIndex = 0) {
