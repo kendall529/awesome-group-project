@@ -79,7 +79,7 @@ function createQuestion(question) {
     var correctAnswer = replaceUnicode(question.correct_answer);
     for (var i = 0; i < answers.length; i++) {
         var buttonEl = document.createElement('button');
-        buttonEl.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
+        buttonEl.setAttribute('class', 'rounded-lg shadow-md bg-orange-500 w-48 mx-auto hover:shadow-xl hover:scale-105');
         //apply the unicode replacement function to the answers
         var answer = replaceUnicode(answers[i]);
         buttonEl.textContent = answer;
@@ -232,6 +232,22 @@ function createEventListener(j, resolve, questions, currentIndex) {
         }
     }
 }
+
+var quizSection = document.getElementById("quiz");
+var fixedElement = document.getElementById("score");
+
+// Add a scroll event listener to the window object
+window.addEventListener("scroll", function() {
+  // Get the vertical position of the quiz section relative to the document
+  var quizPosition = quizSection.offsetTop;
+  
+  // Toggle the visibility of the fixed element based on the vertical scroll position
+  if (window.scrollY >= quizPosition) {
+    fixedElement.style.display = "block";
+  } else {
+    fixedElement.style.display = "none";
+  }
+});
 
 // let username = document.querySelector("#username")
 // let currentScore = initials+": "+score
