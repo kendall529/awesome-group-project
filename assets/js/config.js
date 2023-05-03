@@ -220,6 +220,8 @@ function createEventListener(j, resolve, questions, currentIndex) {
         // go to next question if there are more questions
         if (currentIndex + 1 < questions.length) {
             renderQuestion(questions, currentIndex + 1);
+        } else {
+            window.location.href = './scoreboard.html'
         }
     }
 }
