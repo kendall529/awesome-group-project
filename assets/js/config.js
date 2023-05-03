@@ -1,7 +1,7 @@
-
 var dogPhotoUrl = 'https://dog.ceo/api/breeds/image/random';
 // var triviaUrl = 'https://opentdb.com/api.php?amount=10&type=multiple'
 var scoresList = JSON.parse(localStorage.getItem("highscores")) || []
+
 
 function fetchDogImg() {
     fetch(dogPhotoUrl)
@@ -48,6 +48,7 @@ function replaceUnicode(input) {
         "&rdquo;": "”",
         "&eacute;": "é",
         "&shy;":"-",
+        "&lrm;": " ",
     };
 
     return input.replace(/&[^;]+;/g, match => unicodeReplacements[match] || match);
@@ -226,12 +227,43 @@ function createEventListener(j, resolve, questions, currentIndex) {
         if (currentIndex + 1 < questions.length) {
             renderQuestion(questions, currentIndex + 1);
         } else {
+            sessionStorage.setItem("currentScore", score)
             window.location.href = './scoreboard.html'
         }
     }
 }
 
+// let username = document.querySelector("#username")
+// let currentScore = initials+": "+score
+// scoresList.push(currentScore)
+// localStorage.setItem("highscores", JSON.stringify(scoresList))
+// let resultsList = document.querySelector("#results")
+// for (let i = 0; i < scoresList.length; i++) {
+//     let ul = document.createElement("ul")
+//     resultsList.appendChild(ul)
+//     let li = document.createElement("li")
+//     ul.appendChild(li)
+//     li.textContent = scoresList[i]
+//     if(i==4){
+//         break
+//     }
+// }
+// document.querySelector(".quiz-card").style="display: none"
 
+function submitName() {
+var inputName = document.getElementById("username")
+localStorage.setItem("username", username.value)
+console.log(localStorage.getItem("username"))
+}
+
+function updateScore() {
+    console.log("3")
+    const score = sessionStorage.getItem("currentScore")
+    console.log(score)
+    var scoreBoardScore = document.getElementById("ScoreboardScore");
+    scoreBoardScore.innerHTML = "score: " + score
+    sessionStorage.removeItem("currentScore")
+};
 
     // As a user I want to take a trivia quiz
     // Acceptance Criteria
