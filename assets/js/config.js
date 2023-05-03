@@ -261,7 +261,7 @@ function updateScore() {
     const score = sessionStorage.getItem("currentScore")
     console.log(score)
     var scoreBoardScore = document.getElementById("ScoreboardScore");
-    scoreBoardScore.innerHTML = "score: " + score
+    scoreBoardScore.innerHTML = "Score: " + score;
     sessionStorage.removeItem("currentScore")
 };
 
