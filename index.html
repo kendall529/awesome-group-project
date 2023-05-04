@@ -15,7 +15,7 @@
         <div class="text-slate-300 flex gap-x-20 justify-center">
             <a href="#home">Home</a>
             <a href="#quiz">Play</a>
-            <a href="./scoreboard.html">Past Results</a>
+            <a href="#results">Past Results</a>
         </div>
     </nav>
     <section class="flex bg-slate-500 h-screen" id="home">
@@ -74,11 +74,19 @@
 
         </form>
 
-        <p id="score" class="fixed bottom-1/2 right-40">Score: 0</p>
+        <p id="score" class="fixed bottom-1/2 right-40 text-2xl">Score: 0</p>
 
     </section>
-    <section id="results">
-
+    <section class="bg-cyan-800 h-screen pt-80" id="results">
+        <div id="score-card" class="w-1/2 py-10 mx-auto bg-slate-500 flex flex-col items-center gap-5 rounded-lg shadow-xl">
+            <h1 class="text-5xl">Scoreboard</h1>
+            <form id="result-form">
+                <label for="username">Enter Name: </label>
+                <input class="border-2 rounded-xl border-cyan-700 bg-inherit shadow-lg text-center" type="text" name="username" placeholder="Username" id="username">
+                <button id="save-result" class="bg-orange-500 rounded-xl px-2">Submit</button>
+            </form>
+            <ul id="result-list"></ul>
+        </div>
     </section>
 </body>
 <script src="./assets/js/config.js"></script>
