@@ -227,8 +227,8 @@ function createEventListener(j, resolve, questions, currentIndex) {
         if (currentIndex + 1 < questions.length) {
             renderQuestion(questions, currentIndex + 1);
         } else {
-            sessionStorage.setItem("currentScore", score)
-            window.location.href = './scoreboard.html'
+            sessionStorage.setItem("currentScore", score);
+            window.location.href = '#results'
         }
     }
 }
@@ -249,28 +249,6 @@ window.addEventListener("scroll", function() {
   }
 });
 
-// let username = document.querySelector("#username")
-// let currentScore = initials+": "+score
-// scoresList.push(currentScore)
-// localStorage.setItem("highscores", JSON.stringify(scoresList))
-// let resultsList = document.querySelector("#results")
-// for (let i = 0; i < scoresList.length; i++) {
-//     let ul = document.createElement("ul")
-//     resultsList.appendChild(ul)
-//     let li = document.createElement("li")
-//     ul.appendChild(li)
-//     li.textContent = scoresList[i]
-//     if(i==4){
-//         break
-//     }
-// }
-// document.querySelector(".quiz-card").style="display: none"
-
-// function submitName() {
-// var inputName = document.getElementById("username")
-// localStorage.setItem("username", username.value)
-// console.log(localStorage.getItem("username"))
-// }
 
 function storeScore() {
     const user = new Object;
@@ -287,6 +265,62 @@ function updateScore() {
     scoreBoardScore.innerHTML = "Score: " + score;
     sessionStorage.removeItem("currentScore")
 };
+
+
+var nameInput = document.getElementById("username");
+var addResultButton = document.getElementById("save-result");
+var list = document.getElementById("result-list");
+
+// Retrieve the stored items from local storage when the page loads
+window.addEventListener("load", function(e) {
+    e.preventDefault();
+  var storedResults = JSON.parse(localStorage.getItem("results"));
+  
+  // If stored items were found, create a new list item element for each item and add it to the list
+  if (storedResults !== null) {
+    for (var i = 0; i < storedResults.length; i++) {
+      var newResult = document.createElement("li");
+      newResult.textContent = storedResults[i];
+      list.appendChild(newResult);
+    }
+  }
+});
+
+// Add a click event listener to the add item button
+addResultButton.addEventListener("click", function(e) {
+    e.preventDefault();
+  // Get the value of the new item input and trim any leading/trailing whitespace
+  var newResultText = nameInput.value.trim() + ' Score: ' + score;
+
+  console.log(newResultText);
+  
+  // Return from function early if the new item input is blank
+  if (newResultText === "") {
+    return;
+  }
+  
+  // Create a new list item element and add the new item text to it
+  var newResult = document.createElement("li");
+  newResult.textContent = newResultText;
+  console.log(newResult);
+  
+  // Add the new item element to the list
+  list.appendChild(newResult);
+  
+  // Get the current array of items from local storage, or create an empty array if none is found
+  var results = JSON.parse(localStorage.getItem("results")) || [];
+  
+  // Add the new item text to the array of items
+  results.push(newResultText);
+
+  // Set input text to be blank
+  nameInput.value = '';
+  
+  // Store the updated array of items in local storage
+  localStorage.setItem("results", JSON.stringify(results));
+
+
+});
 
     // As a user I want to take a trivia quiz
     // Acceptance Criteria
