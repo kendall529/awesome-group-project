@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Scoreboard</title>
+</head>
+
+<body class="bg-cyan-700" onload="updateScore();">
+    <div id="score-card" class="w-1/2 my-48 py-10 mx-auto bg-slate-500 flex flex-col items-center gap-5 rounded-lg shadow-xl">
+        <h1 class="text-5xl">Scoreboard</h1>
+        <form id="result-form" method="POST">
+            <label for="username">Enter Name: </label>
+            <input class="border-2 rounded-xl border-cyan-700 bg-inherit shadow-lg text-center" type="text" name="username" placeholder="Username" id="username">
+            <button class="bg-orange-500 rounded-xl px-2" onclick=storeScore()>Submit</button>
+        </form>
+        <ul id="result-list"></ul>
+    </div>
+    <p id="ScoreboardScore" class="fixed bottom-1/2 right-40">Score: 0</p>
+</body>
+<script src="./assets/js/config.js"></script>
+
+</html>

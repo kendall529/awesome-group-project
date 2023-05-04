@@ -1,6 +1,7 @@
-
 var dogPhotoUrl = 'https://dog.ceo/api/breeds/image/random';
 // var triviaUrl = 'https://opentdb.com/api.php?amount=10&type=multiple'
+var scoresList = JSON.parse(localStorage.getItem("highscores")) || []
+
 
 function fetchDogImg() {
     fetch(dogPhotoUrl)
@@ -27,14 +28,10 @@ function createDogImage(dog) {
     imgEL.setAttribute('src', dog.message);
     console.log(dog.message);
     imgEL.setAttribute('alt', 'cute-dog');
-    imgEL.setAttribute('class', 'mx-auto w-80');
+    imgEL.setAttribute('class', 'mx-auto w-64');
     quizSection.append(imgEL);
     return quizSection
 }
-
-
-
-
 
 
 function replaceUnicode(input) {
@@ -47,6 +44,11 @@ function replaceUnicode(input) {
         "&amp;": "&",
         "&lt;": "<",
         "&gt;": ">",
+        "&ldquo;": "“",
+        "&rdquo;": "”",
+        "&eacute;": "é",
+        "&shy;":"-",
+        "&lrm;": " ",
     };
 
     return input.replace(/&[^;]+;/g, match => unicodeReplacements[match] || match);
@@ -77,7 +79,7 @@ function createQuestion(question) {
     var correctAnswer = replaceUnicode(question.correct_answer);
     for (var i = 0; i < answers.length; i++) {
         var buttonEl = document.createElement('button');
-        buttonEl.setAttribute('class', 'rounded-lg shadow-md bg-amber-400 w-48 mx-auto hover:shadow-xl hover:scale-105');
+        buttonEl.setAttribute('class', 'rounded-lg shadow-md bg-orange-500 w-48 mx-auto hover:shadow-xl hover:scale-105');
         //apply the unicode replacement function to the answers
         var answer = replaceUnicode(answers[i]);
         buttonEl.textContent = answer;
@@ -87,7 +89,7 @@ function createQuestion(question) {
                 score += 10;
                 scoreEl.textContent = 'Score: ' + score;
             } else {
-                fetchDogImg()
+                fetchDogImg();
             }
         });
         answerContainerEl.appendChild(buttonEl);
@@ -118,11 +120,11 @@ function shuffleArray(array) {
     return array;
 }
 
-function fetchQuizResults(numberOfQuestions) {
-    var quizURL = 'https://opentdb.com/api.php?amount='
+function fetchQuizResults(category) {
+    var quizURL = 'https://opentdb.com/api.php?amount=10&category='
 
     // Fetch data from quizURL
-    return fetch(quizURL + numberOfQuestions)
+    return fetch(quizURL + category)
         .then(function (res) {
             if (!res.ok) throw new Error('Ooops');
             return res.json();
@@ -142,16 +144,16 @@ startQuizButton.addEventListener('click', function (e) {
     e.preventDefault();
 
     // input elements by ID
-    var setNumberOfQuestions = document.getElementById('number-of-questions');
+    var setCategory = document.getElementById('category');
     // var setCategory = document.getElementById('category');
     // var setDifficulty = document.getElementById('difficulty');
     // Get values form input fields
-    var numberOfQuestions = setNumberOfQuestions.value;
+    var category = setCategory.value;
     // var category = setCategory.value;
     // var difficulty = setDifficulty.value;
 
     // Create the URL for the fetch with the input values
-    fetchQuizResults(numberOfQuestions)
+    fetchQuizResults(category)
         .then(function (questions) {
             // debugging: check the fetch
             console.log('Questions array:', questions);
@@ -160,6 +162,14 @@ startQuizButton.addEventListener('click', function (e) {
         .catch(function (error) {
             console.error(error);
         });
+    
+    document.getElementById('score').textContent = 'Score: 0'
+
+    var quizSection = document.getElementById('quiz');
+    var previousImg = quizSection.querySelector('img');
+    if(previousImg) {
+        previousImg.remove();
+    }
 });
 
 async function renderQuestion(questions, currentIndex = 0) {
@@ -171,6 +181,12 @@ async function renderQuestion(questions, currentIndex = 0) {
     var previousQuestion = quizContainer.querySelector('.quiz-card');
     if (previousQuestion) {
         previousQuestion.remove();
+    }
+
+    var quizSection = document.getElementById('quiz');
+    var previousImg = quizSection.querySelector('img');
+    if(previousImg) {
+        previousImg.remove();
     }
 
     // debugging: Check if the question object is received as expected
@@ -210,11 +226,67 @@ function createEventListener(j, resolve, questions, currentIndex) {
         // go to next question if there are more questions
         if (currentIndex + 1 < questions.length) {
             renderQuestion(questions, currentIndex + 1);
+        } else {
+            sessionStorage.setItem("currentScore", score)
+            window.location.href = './scoreboard.html'
         }
     }
 }
 
+var quizSection = document.getElementById("quiz");
+var fixedElement = document.getElementById("score");
 
+// Add a scroll event listener to the window object
+window.addEventListener("scroll", function() {
+  // Get the vertical position of the quiz section relative to the document
+  var quizPosition = quizSection.offsetTop;
+  
+  // Toggle the visibility of the fixed element based on the vertical scroll position
+  if (window.scrollY >= quizPosition) {
+    fixedElement.style.display = "block";
+  } else {
+    fixedElement.style.display = "none";
+  }
+});
+
+// let username = document.querySelector("#username")
+// let currentScore = initials+": "+score
+// scoresList.push(currentScore)
+// localStorage.setItem("highscores", JSON.stringify(scoresList))
+// let resultsList = document.querySelector("#results")
+// for (let i = 0; i < scoresList.length; i++) {
+//     let ul = document.createElement("ul")
+//     resultsList.appendChild(ul)
+//     let li = document.createElement("li")
+//     ul.appendChild(li)
+//     li.textContent = scoresList[i]
+//     if(i==4){
+//         break
+//     }
+// }
+// document.querySelector(".quiz-card").style="display: none"
+
+// function submitName() {
+// var inputName = document.getElementById("username")
+// localStorage.setItem("username", username.value)
+// console.log(localStorage.getItem("username"))
+// }
+
+function storeScore() {
+    const user = new Object;
+    user.score = score;
+    user.userName = username.value;
+    
+    localStorage.setItem("user", JSON.stringify(user))
+    console.log (localStorage.getItem("user"))
+    }
+
+function updateScore() {
+    const score = sessionStorage.getItem("currentScore")
+    var scoreBoardScore = document.getElementById("ScoreboardScore");
+    scoreBoardScore.innerHTML = "Score: " + score;
+    sessionStorage.removeItem("currentScore")
+};
 
     // As a user I want to take a trivia quiz
     // Acceptance Criteria

@@ -9,32 +9,33 @@
     <link rel="stylesheet" href="./assets/js/css/app.css">
 </head>
 
-<body class="bg-cyan-700">
-    <nav>
-        <span class="font-bold">Meowscope</span>
-        <div>
+<body class="bg-slate-700">
+    <nav class="relative py-5">
+        <h1 class="text-orange-500 absolute ms-5 left-0 top-1/4 font-bold text-2xl flex items-center">TriviaDogs</h1>
+        <div class="text-slate-300 flex gap-x-20 justify-center">
             <a href="#home">Home</a>
-            <a href="#results">Interact</a>
-            <a href="#">Contact</a>
+            <a href="#quiz">Play</a>
+            <a href="./scoreboard.html">Past Results</a>
         </div>
     </nav>
-    <section id="home">
-        <div class="mission-statement">
-            <h2>Trivia and Dogs</h2>
-            <p>For those times when you're bored and a trivia quiz is just the solution. No need to worry about getting a question wrong. When that happens there a fun surprise</p>
-            <a href="#quiz">Learn <span>More</span></a>
+    <section class="flex bg-slate-500 h-screen" id="home">
+        <div class="mission-statement mx-32 my-auto">
+            <h2 class="text-5xl mb-4">Trivia and Dogs</h2>
+            <p class="mb-4">For those times when you're bored and a trivia quiz is just the solution. No need to worry about getting a question wrong. When that happens there a fun surprise</p>
+            <a class="bg-slate-700 text-slate-300 px-6 py-1 rounded-lg" href="#quiz">Learn <span class="text-orange-500"> More</span></a>
         </div>
-
-        <img src="https://images.unsplash.com/photo-1570937943292-a574bd5bc722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" alt="placeholder">
+    
+     <div class="my-auto">
+        <img class="w-2/3 mx-auto overflow-hidden" src="https://images.unsplash.com/photo-1570937943292-a574bd5bc722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" alt="A sign with 'Trivia Night' written on it">
+    </div>
     </section>
-    <section id="quiz" class="bg-cyan300 relative flex justify-center">
-        <form action="">
-            <label for="number-of-questions">Number of Questions:</label>
+    <section id="quiz" class="relative flex flex-col items-center h-screen">
+        <form action="" class="mt-10">
+            <!-- <label for="number-of-questions">Number of Questions:</label>
             <input type="number" name="number-of-questions" id="number-of-questions" min="1" max="50" value="10">
-            <br>
-            <label for="category">Choose Category:</label>
-            <select name="category" id="category">
-                <option value="any">Any Category</option>
+            <br> -->
+            <label class="text-slate-300" for="category">Choose Category:</label>
+            <select class="text-center rounded bg-orange-500" name="category" id="category">   
                 <option value="9">General Knowledge</option>
                 <option value="10">Entertainment: Books</option>
                 <option value="11">Entertainment: Film</option>
@@ -61,19 +62,19 @@
                 <option value="32">Entertainment: Cartoon & Animations</option>
             </select>
             <br>
-            <label for="difficulty">Select difficulty</label>
+            <!-- <label for="difficulty">Select difficulty</label>
             <select name="difficulty" id="difficulty">
                 <option value="any">Any difficulty</option>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
-            </select>
+            </select> -->
             <br>
-        <button class="rounded-full bg-slate-500 p-1 px-3 my-10 ms-40" id="start-quiz">Start Quiz</button>
+        <button class="rounded-full bg-slate-300 p-1 px-3 my-10 ms-40 shadow-md shadow-slate-900" id="start-quiz">Start Quiz</button>
 
         </form>
 
-        <p id="score" class="absolute bottom-0 right-40">Score: 0</p>
+        <p id="score" class="fixed bottom-1/2 right-40">Score: 0</p>
 
     </section>
     <section id="results">
