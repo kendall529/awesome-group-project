@@ -227,6 +227,7 @@ function createEventListener(j, resolve, questions, currentIndex) {
         if (currentIndex + 1 < questions.length) {
             renderQuestion(questions, currentIndex + 1);
         } else {
+            sessionStorage.setItem("currentScore", score);
             window.location.href = '#results'
         }
     }
@@ -249,29 +250,30 @@ window.addEventListener("scroll", function() {
 });
 
 
-// function storeScore() {
-//     const user = new Object;
-//     user.score = score;
-//     user.userName = username.value;
+function storeScore() {
+    const user = new Object;
+    user.score = score;
+    user.userName = username.value;
     
-//     localStorage.setItem("user", JSON.stringify(user))
-//     console.log (localStorage.getItem("user"))
-//     }
+    localStorage.setItem("user", JSON.stringify(user))
+    console.log (localStorage.getItem("user"))
+    }
 
-// function updateScore() {
-//     const score = sessionStorage.getItem("currentScore")
-//     var scoreBoardScore = document.getElementById("ScoreboardScore");
-//     scoreBoardScore.innerHTML = "Score: " + score;
-//     sessionStorage.removeItem("currentScore")
-// };
+function updateScore() {
+    const score = sessionStorage.getItem("currentScore")
+    var scoreBoardScore = document.getElementById("ScoreboardScore");
+    scoreBoardScore.innerHTML = "Score: " + score;
+    sessionStorage.removeItem("currentScore")
+};
 
-// JavaScript code
+
 var nameInput = document.getElementById("username");
 var addResultButton = document.getElementById("save-result");
 var list = document.getElementById("result-list");
 
 // Retrieve the stored items from local storage when the page loads
-window.addEventListener("load", function() {
+window.addEventListener("load", function(e) {
+    e.preventDefault();
   var storedResults = JSON.parse(localStorage.getItem("results"));
   
   // If stored items were found, create a new list item element for each item and add it to the list
@@ -285,9 +287,12 @@ window.addEventListener("load", function() {
 });
 
 // Add a click event listener to the add item button
-addResultButton.addEventListener("click", function() {
+addResultButton.addEventListener("click", function(e) {
+    e.preventDefault();
   // Get the value of the new item input and trim any leading/trailing whitespace
-  var newResultText = nameInput.value.trim() + 'Score: ' + score;
+  var newResultText = nameInput.value.trim() + ' Score: ' + score;
+
+  console.log(newResultText);
   
   // Return from function early if the new item input is blank
   if (newResultText === "") {
@@ -297,6 +302,7 @@ addResultButton.addEventListener("click", function() {
   // Create a new list item element and add the new item text to it
   var newResult = document.createElement("li");
   newResult.textContent = newResultText;
+  console.log(newResult);
   
   // Add the new item element to the list
   list.appendChild(newResult);
@@ -305,10 +311,15 @@ addResultButton.addEventListener("click", function() {
   var results = JSON.parse(localStorage.getItem("results")) || [];
   
   // Add the new item text to the array of items
-  results.push(newItemText);
+  results.push(newResultText);
+
+  // Set input text to be blank
+  nameInput.value = '';
   
   // Store the updated array of items in local storage
-  localStorage.setItem("items", JSON.stringify(results));
+  localStorage.setItem("results", JSON.stringify(results));
+
+
 });
 
     // As a user I want to take a trivia quiz

@@ -74,13 +74,13 @@
 
         </form>
 
-        <p id="score" class="fixed bottom-1/2 right-40">Score: 0</p>
+        <p id="score" class="fixed bottom-1/2 right-40 text-2xl">Score: 0</p>
 
     </section>
-    <section class="bg-slate-500 h-screen" id="results">
-        <div id="score-card" class="w-1/2 my-48 py-10 mx-auto bg-slate-500 flex flex-col items-center gap-5 rounded-lg shadow-xl">
+    <section class="bg-cyan-800 h-screen pt-80" id="results">
+        <div id="score-card" class="w-1/2 py-10 mx-auto bg-slate-500 flex flex-col items-center gap-5 rounded-lg shadow-xl">
             <h1 class="text-5xl">Scoreboard</h1>
-            <form id="result-form" method="POST">
+            <form id="result-form">
                 <label for="username">Enter Name: </label>
                 <input class="border-2 rounded-xl border-cyan-700 bg-inherit shadow-lg text-center" type="text" name="username" placeholder="Username" id="username">
                 <button id="save-result" class="bg-orange-500 rounded-xl px-2">Submit</button>
