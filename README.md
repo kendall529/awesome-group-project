@@ -21,7 +21,9 @@ Javascript
 Tailwind CSS - https://tailwindcss.com/
 
 # Screenshot of the Web Application
-
+![image](https://user-images.githubusercontent.com/127711552/236098288-532cacab-514f-4c08-abe9-4b6d5261d944.png)
+![image](https://user-images.githubusercontent.com/127711552/236098325-7f401081-ac69-47c5-908b-3cdfdd8a5ea5.png)
+![image](https://user-images.githubusercontent.com/127711552/236098458-435c1132-c4f5-4d35-a27a-2c89a64c4a04.png)
 
 # Link
 https://kendall529.github.io/triviawesome-group-project
