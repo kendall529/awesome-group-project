@@ -227,8 +227,7 @@ function createEventListener(j, resolve, questions, currentIndex) {
         if (currentIndex + 1 < questions.length) {
             renderQuestion(questions, currentIndex + 1);
         } else {
-            sessionStorage.setItem("currentScore", score)
-            window.location.href = './scoreboard.html'
+            window.location.href = '#results'
         }
     }
 }
@@ -249,44 +248,68 @@ window.addEventListener("scroll", function() {
   }
 });
 
-// let username = document.querySelector("#username")
-// let currentScore = initials+": "+score
-// scoresList.push(currentScore)
-// localStorage.setItem("highscores", JSON.stringify(scoresList))
-// let resultsList = document.querySelector("#results")
-// for (let i = 0; i < scoresList.length; i++) {
-//     let ul = document.createElement("ul")
-//     resultsList.appendChild(ul)
-//     let li = document.createElement("li")
-//     ul.appendChild(li)
-//     li.textContent = scoresList[i]
-//     if(i==4){
-//         break
-//     }
-// }
-// document.querySelector(".quiz-card").style="display: none"
 
-// function submitName() {
-// var inputName = document.getElementById("username")
-// localStorage.setItem("username", username.value)
-// console.log(localStorage.getItem("username"))
-// }
-
-function storeScore() {
-    const user = new Object;
-    user.score = score;
-    user.userName = username.value;
+// function storeScore() {
+//     const user = new Object;
+//     user.score = score;
+//     user.userName = username.value;
     
-    localStorage.setItem("user", JSON.stringify(user))
-    console.log (localStorage.getItem("user"))
-    }
+//     localStorage.setItem("user", JSON.stringify(user))
+//     console.log (localStorage.getItem("user"))
+//     }
 
-function updateScore() {
-    const score = sessionStorage.getItem("currentScore")
-    var scoreBoardScore = document.getElementById("ScoreboardScore");
-    scoreBoardScore.innerHTML = "Score: " + score;
-    sessionStorage.removeItem("currentScore")
-};
+// function updateScore() {
+//     const score = sessionStorage.getItem("currentScore")
+//     var scoreBoardScore = document.getElementById("ScoreboardScore");
+//     scoreBoardScore.innerHTML = "Score: " + score;
+//     sessionStorage.removeItem("currentScore")
+// };
+
+// JavaScript code
+var nameInput = document.getElementById("username");
+var addResultButton = document.getElementById("save-result");
+var list = document.getElementById("result-list");
+
+// Retrieve the stored items from local storage when the page loads
+window.addEventListener("load", function() {
+  var storedResults = JSON.parse(localStorage.getItem("results"));
+  
+  // If stored items were found, create a new list item element for each item and add it to the list
+  if (storedResults !== null) {
+    for (var i = 0; i < storedResults.length; i++) {
+      var newResult = document.createElement("li");
+      newResult.textContent = storedResults[i];
+      list.appendChild(newResult);
+    }
+  }
+});
+
+// Add a click event listener to the add item button
+addResultButton.addEventListener("click", function() {
+  // Get the value of the new item input and trim any leading/trailing whitespace
+  var newResultText = nameInput.value.trim() + 'Score: ' + score;
+  
+  // Return from function early if the new item input is blank
+  if (newResultText === "") {
+    return;
+  }
+  
+  // Create a new list item element and add the new item text to it
+  var newResult = document.createElement("li");
+  newResult.textContent = newResultText;
+  
+  // Add the new item element to the list
+  list.appendChild(newResult);
+  
+  // Get the current array of items from local storage, or create an empty array if none is found
+  var results = JSON.parse(localStorage.getItem("results")) || [];
+  
+  // Add the new item text to the array of items
+  results.push(newItemText);
+  
+  // Store the updated array of items in local storage
+  localStorage.setItem("items", JSON.stringify(results));
+});
 
     // As a user I want to take a trivia quiz
     // Acceptance Criteria
