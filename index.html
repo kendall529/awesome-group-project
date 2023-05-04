@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./assets/js/css/app.css">
+</head>
+
+<body class="bg-slate-700">
+    <nav class="relative py-5">
+        <h1 class="text-orange-500 absolute ms-5 left-0 top-1/4 font-bold text-2xl flex items-center">TriviaDogs</h1>
+        <div class="text-slate-300 flex gap-x-20 justify-center">
+            <a href="#home">Home</a>
+            <a href="#quiz">Play</a>
+            <a href="#results">Past Results</a>
+        </div>
+    </nav>
+    <section class="flex bg-slate-500 h-screen" id="home">
+        <div class="mission-statement mx-32 my-auto">
+            <h2 class="text-5xl mb-4">Trivia and Dogs</h2>
+            <p class="mb-4">For those times when you're bored and a trivia quiz is just the solution. No need to worry about getting a question wrong. When that happens there a fun surprise</p>
+            <a class="bg-slate-700 text-slate-300 px-6 py-1 rounded-lg" href="#quiz">Learn <span class="text-orange-500"> More</span></a>
+        </div>
+    
+     <div class="my-auto">
+        <img class="w-2/3 mx-auto overflow-hidden" src="https://images.unsplash.com/photo-1570937943292-a574bd5bc722?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" alt="A sign with 'Trivia Night' written on it">
+    </div>
+    </section>
+    <section id="quiz" class="relative flex flex-col items-center h-screen">
+        <form action="" class="mt-10">
+            <!-- <label for="number-of-questions">Number of Questions:</label>
+            <input type="number" name="number-of-questions" id="number-of-questions" min="1" max="50" value="10">
+            <br> -->
+            <label class="text-slate-300" for="category">Choose Category:</label>
+            <select class="text-center rounded bg-orange-500" name="category" id="category">   
+                <option value="9">General Knowledge</option>
+                <option value="10">Entertainment: Books</option>
+                <option value="11">Entertainment: Film</option>
+                <option value="12">Entertainment: Music</option>
+                <option value="13">Entertainment: Musicals & Theatres</option>
+                <option value="14">Entertainment: Television</option>
+                <option value="15">Entertainment: Video Games</option>
+                <option value="16">Entertainment: Board Games</option>
+                <option value="17">Science & Nature</option>
+                <option value="18">Science: Computers</option>
+                <option value="19">Science: Mathematics</option>
+                <option value="20">Mythology</option>
+                <option value="21">Sports</option>
+                <option value="22">Geography</option>
+                <option value="23">History</option>
+                <option value="24">Politics</option>
+                <option value="25">Art</option>
+                <option value="26">Celebrities</option>
+                <option value="27">Animals</option>
+                <option value="28">Vehicles</option>
+                <option value="29">Entertainment: Comics</option>
+                <option value="30">Science: Gadgets</option>
+                <option value="31">Entertainment: Japanese Anime & Manga</option>
+                <option value="32">Entertainment: Cartoon & Animations</option>
+            </select>
+            <br>
+            <!-- <label for="difficulty">Select difficulty</label>
+            <select name="difficulty" id="difficulty">
+                <option value="any">Any difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select> -->
+            <br>
+        <button class="rounded-full bg-slate-300 p-1 px-3 my-10 ms-40 shadow-md shadow-slate-900" id="start-quiz">Start Quiz</button>
+
+        </form>
+
+        <p id="score" class="fixed bottom-1/2 right-40 text-2xl">Score: 0</p>
+
+    </section>
+    <section class="bg-cyan-800 h-screen pt-80" id="results">
+        <div id="score-card" class="w-1/2 py-10 mx-auto bg-slate-500 flex flex-col items-center gap-5 rounded-lg shadow-xl">
+            <h1 class="text-5xl">Scoreboard</h1>
+            <form id="result-form">
+                <label for="username">Enter Name: </label>
+                <input class="border-2 rounded-xl border-cyan-700 bg-inherit shadow-lg text-center" type="text" name="username" placeholder="Username" id="username">
+                <button id="save-result" class="bg-orange-500 rounded-xl px-2">Submit</button>
+            </form>
+            <ul id="result-list"></ul>
+        </div>
+    </section>
+</body>
+<script src="./assets/js/config.js"></script>
+</html>
